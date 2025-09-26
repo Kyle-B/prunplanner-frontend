@@ -6,14 +6,19 @@
 	import { trackEvent } from "@/lib/analytics/useAnalytics";
 
 	// Components
+	import MaterialTile from "@/features/material_tile/components/MaterialTile.vue";
 	import PlanProductionBuilding from "@/features/planning/components/PlanProductionBuilding.vue";
 
 	// Types & Interfaces
+	import { IPlanetResource } from "@/features/api/gameData.types";
 	import { IProductionResult } from "@/features/planning/usePlanCalculation.types";
 	import { PLAN_COGCPROGRAM_TYPE } from "@/stores/planningStore.types";
 
 	// UI
-	import { PCheckbox, PSelect } from "@/ui";
+	import { PCheckbox, PSelect, PTooltip } from "@/ui";
+
+	// Util
+	import { formatNumber } from "@/util/numbers";
 
 	const props = defineProps({
 		disabled: {
@@ -35,6 +40,10 @@
 		},
 		planetId: {
 			type: String,
+			required: true,
+		},
+		planetResources: {
+			type: Object as PropType<IPlanetResource[]>,
 			required: true,
 		},
 	});
@@ -78,18 +87,52 @@
 </script>
 
 <template>
-	<div class="flex flex-row gap-x-3 pb-3 justify-between child:my-auto">
-		<h2 class="text-white/80 font-bold text-lg">Production</h2>
-
-		<div class="flex child:my-auto gap-x-3">
-			<div class="text-sm">Match COGC</div>
-			<PCheckbox v-model:checked="localMatchCOGC" :disabled="disabled" />
+	<h2 class="text-white/80 font-bold text-lg">Production</h2>
+	<div
+		class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-3 py-3 child:my-auto">
+		<div class="flex gap-3 child:my-auto">
+			<div class="text-sm">Planet Resources</div>
+			<div class="flex flex-wrap gap-1 child:my-auto">
+				<PTooltip
+					v-for="resource in planetResources"
+					:key="`PLANET#RESOURCE#${resource.MaterialTicker}`">
+					<template #trigger>
+						<div class="hover:cursor-help">
+							<MaterialTile
+								:key="resource.MaterialTicker"
+								:ticker="resource.MaterialTicker"
+								:amount="
+									parseFloat(
+										formatNumber(resource.DailyExtraction)
+									)
+								"
+								disable-drawer
+								:enable-popover="false" />
+						</div>
+					</template>
+					{{ resource.ResourceType }} ({{
+						resource.ResourceType === "MINERAL"
+							? "EXT"
+							: resource.ResourceType === "GASEOUS"
+							? "COL"
+							: "RIG"
+					}})
+				</PTooltip>
+			</div>
+		</div>
+		<div class="sm:justify-self-end-safe flex child:my-auto gap-3">
+			<div class="flex gap-3">
+				<div class="text-sm text-nowrap">Match COGC</div>
+				<PCheckbox
+					v-model:checked="localMatchCOGC"
+					:disabled="disabled" />
+			</div>
 
 			<PSelect
 				v-model:value="localSelectedBuilding"
 				:disabled="disabled"
 				searchable
-				class="w-full lg:!w-[300px]"
+				class="w-full sm:!w-[300px]"
 				:options="
 					getProductionBuildingOptions(
 						localProductionData.buildings.map((e) => e.name),

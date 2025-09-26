@@ -1,4 +1,4 @@
-import { IBuilding, IRecipe } from "@/features/api/gameData.types";
+import { BUILDING_EXPERTISE_TYPE, IBuilding, IRecipe } from "@/features/api/gameData.types";
 import { IBuildingEfficiency } from "@/features/planning/calculations/bonusCalculations.types";
 import { PLAN_COGCPROGRAM_TYPE } from "@/stores/planningStore.types";
 import { IInfrastructureCosts } from "../cx/usePrice.types";
@@ -124,6 +124,7 @@ export interface IProductionBuilding {
 	workforceMaterials: IMaterialIOMinimal[];
 	workforceDailyCost: number;
 	dailyRevenue: number;
+	expertise: BUILDING_EXPERTISE_TYPE | null;
 }
 
 export interface IProductionResult {

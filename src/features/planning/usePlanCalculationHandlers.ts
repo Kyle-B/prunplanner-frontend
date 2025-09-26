@@ -392,6 +392,17 @@ export async function usePlanCalculationHandlers(
 		modified.value = true;
 	}
 
+	/**
+	 * Updates the Auto Optimize Habitations Setting
+	 * @author jplacht
+	 *
+	 * @param {boolean} value Plan should automatically optimize habitations
+	 */
+	function handleUpdateAutoOptimizeHabs(value: boolean): void {
+		// Stub, back-end can't store this yet
+		modified.value = true;
+	}
+
 	return {
 		modified,
 		// handlers
@@ -410,5 +421,6 @@ export async function usePlanCalculationHandlers(
 		handleAddBuildingRecipe,
 		handleChangeBuildingRecipe,
 		handleChangePlanName,
+		handleUpdateAutoOptimizeHabs,
 	};
 }

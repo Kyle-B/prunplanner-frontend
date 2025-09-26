@@ -65,15 +65,38 @@
 	const localBuildingData: ComputedRef<IProductionBuilding> = computed(
 		() => props.buildingData
 	);
+
+	const expertiseString = computed(() => {
+		if (localBuildingData.value.expertise) {
+			return localBuildingData.value.expertise
+				.replaceAll("_", " ")
+				.toLowerCase();
+		}
+		return "";
+	});
+
+	const isPlanetCogc = computed(() => {
+		return localBuildingData.value.efficiencyElements.some(
+			(element) => element.efficiencyType === "COGC"
+		);
+	});
 </script>
 
 <template>
 	<div class="mb-6">
 		<div
 			class="p-3 rounded-tl rounded-tr border-pp-border border-l border-t border-r flex gap-x-3 justify-between">
-			<h3 class="text-2xl font-bold text-white">
-				{{ localBuildingData.name }}
-			</h3>
+			<div class="flex flex-row gap-x-3 items-baseline">
+				<h3 class="text-2xl font-bold text-white">
+					{{ localBuildingData.name }} -
+					{{ localBuildingData.amount }}
+				</h3>
+				<span
+					class="capitalize"
+					:class="isPlanetCogc ? 'text-positive' : ''"
+					>{{ expertiseString }}</span
+				>
+			</div>
 			<div class="flex flex-row flex-wrap gap-x-1">
 				<PInputNumber
 					v-model:value="localBuildingData.amount"
@@ -157,7 +180,7 @@
 		</div>
 		<div
 			class="p-3 border-pp-border border rounded-bl rounded-br bg-white/5 flex flex-row gap-x-3 justify-between">
-			<div>
+			<div class="flex flex-row gap-x-3">
 				<PTooltip>
 					<template #trigger>
 						<div class="flex gap-x-3 hover:cursor-help">
@@ -184,7 +207,13 @@
 			</div>
 			<div class="flex gap-x-3">
 				<span>Revenue</span>
-				<span class="font-bold">
+				<span
+					class="font-bold"
+					:class="
+						localBuildingData.dailyRevenue >= 0
+							? '!text-positive'
+							: '!text-negative'
+					">
 					{{ formatNumber(localBuildingData.dailyRevenue) }} $
 				</span>
 				<span>Construction Cost</span>

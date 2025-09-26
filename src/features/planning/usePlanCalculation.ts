@@ -587,6 +587,7 @@ export async function usePlanCalculation(
 				workforceMaterials: workforceMaterials,
 				workforceDailyCost: workforceDailyCost,
 				dailyRevenue: 0,
+				expertise: buildingData.Expertise,
 			};
 
 			// Calculating individual buildings daily contribution

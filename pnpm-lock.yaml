@@ -86,6 +86,9 @@ importers:
       vue-showdown:
         specifier: ^4.2.0
         version: 4.2.0(typescript@5.9.2)
+      yalps:
+        specifier: ^0.5.6
+        version: 0.5.6
       zod:
         specifier: ^4.1.5
         version: 4.1.5
@@ -1658,6 +1661,9 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
+  heap@0.2.7:
+    resolution: {integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==}
+
   highcharts-vue@2.0.1:
     resolution: {integrity: sha512-7yVaKvsWlx7OgmKFXE2D99fi/0tr2A85H4KUz3jL7CRQhAwvEvXgtDIyTBGLHJsOC5L9VlppAI7k6KfIi0j0hg==}
     peerDependencies:
@@ -2694,6 +2700,9 @@ packages:
   yallist@5.0.0:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
+
+  yalps@0.5.6:
+    resolution: {integrity: sha512-pqjmZGtEBAYuTR03G8SWVvR9vAyBBfSKup82CEJRx2Bta5j/1fRT29kwYdL2NaensQ5ugrYGLdHupNsYWPKGQg==}
 
   yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
@@ -4157,6 +4166,8 @@ snapshots:
 
   he@1.2.0: {}
 
+  heap@0.2.7: {}
+
   highcharts-vue@2.0.1(highcharts@12.4.0)(vue@3.5.21(typescript@5.9.2)):
     dependencies:
       highcharts: 12.4.0
@@ -5180,6 +5191,10 @@ snapshots:
   y18n@5.0.8: {}
 
   yallist@5.0.0: {}
+
+  yalps@0.5.6:
+    dependencies:
+      heap: 0.2.7
 
   yargs-parser@21.1.1: {}
 

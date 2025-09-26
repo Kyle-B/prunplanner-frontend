@@ -56,7 +56,7 @@
 		{{ totalExperts }} experts assigned.
 	</div>
 	<div
-		class="grid grid-cols-1 xl:grid-cols-[auto_auto_auto] gap-x-1 gap-y-3 child:my-auto">
+		class="grid grid-cols-[repeat(3,auto)] sm:grid-cols-[repeat(6,auto)] gap-3 child:my-auto">
 		<template v-for="expert in expertData" :key="expert.name">
 			<div>{{ capitalizeString(expert.name) }}</div>
 			<PInputNumber
@@ -65,7 +65,7 @@
 				show-buttons
 				:min="0"
 				:max="5"
-				class="w-full min-w-[70px]"
+				class="min-w-[80px] max-w-[100px]"
 				@update:value="
 					(value) => {
 						if (value !== null && value !== undefined) {

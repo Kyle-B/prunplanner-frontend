@@ -1,5 +1,10 @@
 <script setup lang="ts">
-	import { computed, ComputedRef, PropType } from "vue";
+	import {
+		computed,
+		ComputedRef,
+		PropType,
+		WritableComputedRef,
+	} from "vue";
 	import { trackEvent } from "@/lib/analytics/useAnalytics";
 
 	// Types & Interfaces
@@ -9,10 +14,14 @@
 	} from "@/features/planning/usePlanCalculation.types";
 
 	// UI
-	import { PInputNumber } from "@/ui";
+	import { PForm, PFormItem, PCheckbox, PInputNumber, PTooltip } from "@/ui";
 
 	const props = defineProps({
 		disabled: {
+			type: Boolean,
+			required: true,
+		},
+		autoOptimizeHabs: {
 			type: Boolean,
 			required: true,
 		},
@@ -32,6 +41,7 @@
 			infrastructure: INFRASTRUCTURE_TYPE,
 			value: number
 		): void;
+		(e: "update:auto-optimize-habs", value: boolean): void;
 	}>();
 
 	// Local State
@@ -50,19 +60,25 @@
 		"HB5",
 		"STO",
 	];
+
+	const localAutoOptimizeHabs: WritableComputedRef<boolean> = computed({
+		get: () => props.autoOptimizeHabs,
+		set: (value: boolean) => {
+			emit("update:auto-optimize-habs", value);
+		},
+	});
 </script>
 
 <template>
-	<div
-		class="grid grid-cols-1 lg:grid-cols-[auto_auto_auto_auto] gap-3 child:my-auto">
+	<div class="grid grid-cols-[repeat(4,auto)] gap-3 child:my-auto">
 		<template v-for="inf in infrastructureOrder" :key="inf">
 			<div>{{ inf }}</div>
 			<PInputNumber
 				v-model:value="localInfrastructureData[inf]"
-				:disabled="disabled"
+				:disabled="disabled || (localAutoOptimizeHabs && inf !== 'STO')"
 				show-buttons
 				:min="0"
-				class="w-full min-w-[80px]"
+				class="min-w-[85px] max-w-[100px]"
 				@update:value="
 					(value) => {
 						if (value !== null && value !== undefined) {
@@ -76,5 +92,20 @@
 					}
 				" />
 		</template>
+	</div>
+	<div class="mt-3">
+		<PForm>
+			<PFormItem label="Auto-Optimize Habs">
+				<PTooltip>
+					<template #trigger>
+						<PCheckbox
+							v-model:checked="localAutoOptimizeHabs"
+							:disabled="disabled" />
+					</template>
+					Automatically optimize habitations to meet<br />workforce
+					needs as buildings are added.
+				</PTooltip>
+			</PFormItem>
+		</PForm>
 	</div>
 </template>
